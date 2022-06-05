@@ -92,7 +92,7 @@ Label(frame_sol, bg=cc, text='Rows', font='Verdana 8 bold').pack(pady=10, padx=1
 B2 =Entry(frame_sol, textvariable=row_var, bg='#fff', font='Verdana 8 ')
 B2.pack(padx=15, pady=3, anchor=NW)
 
-set_button = Button(frame_sol, text="Set",command=set1, width=20, bg="#5f5e5e", fg="black")
+set_button = Button(frame_sol, text="Set",command=set1, width=20, bg="#5f5e5e", fg="white")
 set_button.pack(padx=15, pady=10, anchor=SW)
 
 print_button = Button(frame_sol, text="Print",command=open_text_file, width=20, bg="#5f5e5e", fg="black")
