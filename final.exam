@@ -1,0 +1,124 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled0.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "authorship_tag": "ABX9TyPkcbDLMfiL0JwFFJlOdBWT",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/beisaa/beisaa/blob/main/final.exam\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 10,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "JPDpJsTEWOPe",
+        "outputId": "3a773df2-3b9f-432d-a3b3-ec3b9f58f205"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "data:\n",
+            "h= 5 cm, t= 21 sec., R= 2 m, g= 9.8 m/s^2, theta= 134 m/s^2\n",
+            "sin 134 = 0.8859248164599484\n",
+            "cos 134 = -0.4638288688518717\n",
+            "V= 2 m/sec.,\n",
+            "calculations:\n",
+            "V_h= 0m/sec.\n",
+            "V_0= 0 m/sec.\n",
+            "a= -9.8 m/s^2\n",
+            "displacement= (0, 21609.0) m\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "import random\n",
+        "import math\n",
+        "\n",
+        "print(\"data:\")\n",
+        "\n",
+        "for x in range(1):\n",
+        "    h = random.randrange(1, 40, 2)\n",
+        "    t = random.randrange(1, 40, 2)\n",
+        "    R = random.randrange(0, 4, 2)\n",
+        "    theta  = random.randrange(0, 180, 2)\n",
+        "    g = 9.8\n",
+        "    print(\"h=\", h, \"cm,\", \"t=\", t, \"sec.,\", \"R=\", R, \"m,\", \"g=\", g, \"m/s^2,\", \"theta=\", theta, \"m/s^2\")\n",
+        "    print(\"sin\",theta, \"=\",math.sin(theta))\n",
+        "    print(\"cos\",theta, \"=\",math.cos(theta))\n",
+        "    V = random.randrange(0, 40, 2)\n",
+        "    V_h = random.randrange(0, 8, 2)\n",
+        "    V_0 = random.randrange(0, 40, 2)\n",
+        "    print(\"V=\", V, \"m/sec.,\")\n",
+        "\n",
+        "print(\"calculations:\")\n",
+        "\n",
+        "if (V_h == 0):\n",
+        "    V_0 = 0\n",
+        "    a = -1 * g\n",
+        "    print(\"V_h= 0m/sec.\")\n",
+        "    print(\"V_0=\", V_0, \"m/sec.\")\n",
+        "    print(\"a=\", a, \"m/s^2\")\n",
+        "else :\n",
+        "    V_h = V * math.cos(theta)\n",
+        "    print(\"V_h=\", V_h, \"m/sec.\")\n",
+        "    V_0 = V * math.sin(theta)\n",
+        "    print(\"V_0=\", V_0, \"m/sec.\")\n",
+        "    a = -1 * g\n",
+        "    print(\"a=\", a, \"m/s^2\")\n",
+        "\n",
+        "if R == 0:\n",
+        "    if V_0 == 0:\n",
+        "        s = float(0,5 * g * t**2) + h\n",
+        "        print(\"displacement=\", s, \"m\")\n",
+        "    else :\n",
+        "        V_0 != 0\n",
+        "        s = V_0 * t + 0, 5 * g * t ** 2\n",
+        "        print(\"displacement=\", s, \"m\")\n",
+        "\n",
+        "else :\n",
+        "    s = V_0 * t + 0, 5 * g * t ** 2\n",
+        "    print(\"displacement=\", s, \"m\")\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "sUycQx4dWPwJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
