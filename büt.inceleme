@@ -1,0 +1,605 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Copy of COMP2083 - Büt Örneği.ipynb",
+      "private_outputs": true,
+      "provenance": [],
+      "collapsed_sections": [
+        "qVl5-GcT_e6H",
+        "xFTI-FhB7Clh",
+        "Evl9tu2t_DgV",
+        "LNwojj4uA-0r",
+        "CtqKxmO9_i5t",
+        "nDs-CPEX_i5u",
+        "S3gKOplT_i5v",
+        "Hh7uiVUpBEg6"
+      ],
+      "toc_visible": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# Free Fall of an Object\n",
+        "<i>prepared by Beyzanur Erol (120519054)</i> 26/06/2022"
+      ],
+      "metadata": {
+        "id": "TUIc_-B30xaW"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "In Newtonian physics, free fall is any motion of a body where gravity is the only force acting upon it [1].\n",
+        "\n",
+        "![freefall.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAB1CAIAAADlWtllAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAA2ASURBVHhe7ZxrrFxVGYbnTM9poZHW4i0GJJpoSEpAMVQKBikJWEKAQim1wUqCgSgG+FExqRgi1QCJxkR+mEAt/BAIIgTQmMaUSBs1bST94aUNwWJ6v9Lb6bnMZV+W7/e9a6+zZ85MO+3MWXtOXG9Wdtd91nr2t7+91t77tGSCfCmw9qfA2p8Ca38KrP0psPanwNqfWrAul8ulUmlgYABHF2HmdNHg4CAjHDYmlSQJZ1egWrDG4IaGhnAE5RkzZsiQp5U4ZmccSKZpaudWqFqzzlsxh07600LuQkSEBo5J1et1zq5AtWDNseJo08bEcdwP12CHohXjKOBVzC9cre0aAusoijBiDn16iWPGFQnrhjgRFhWoFqydu2ASRo3jNCJeq9UY4SxAnFMoXK3tmj7aDbFP7KJzYcA4wqKVdh/7EA4RuJkE5ekFmrcWHDELeELeePp3zUfZ9LQVpgDQ/TORwNqfAmt/Cqz9KbD2p8DanwJrfwqs/Smw9qfA2p8Ca38KrP0psPanwNqfAmt/Cqz9KbA+g/iSoSdvSwLrtkLDcrlsEwq9S+KBdVvJG/hyGYhp2lQ3r4kD67bKt+WnPMGu2wpT6NKHQI4vrbub76cC67ZC26GhISLmkZ9CnLMC67ZSBs1tu3EjgXVboS3vjYgTcfDXbYUp9Nyuu1Fg3VbKILDuTJhCYO1JmEJg7UmYQmDtSZhCYO1JmEJg7UmYQmDdsCnIP0XrrTCFDlk3bb75MA8NsZdhDgbZ/XamGNaQ+6sWqstHDS2FKZyVXWMMoFyv14eGhpBk8x6aRWGsIRpLN5ZyemEKnbN2D6bRhK0oDg9DJehuRlsAaw43P+gp+jn02SFrBxQR+A00GRwc7LBt5yqANUUzoTX1fFYU+uykZ4yBrPODgQgdOYwj0uT3zlYFsM5PjEk3q94KfZ6VXUMYFQdDobnLYYVuVABrJ4d7in4OfXZo1ziqQ7a3Prbi39TiNOAIl4IIxTrnoGJYY1YcNF8pub/Q763QZyesHT7H2jWEODYkkT8l72XyQ+zmTLaTmxXVCZGzEsfMa5+u1l1Dp5czAjR0wvB6AqEtaw4RauLSQ9FM0D9+DubDzO6Vd02duFpyzJ8MDEkYZ80h1sGRkXNTa9b8DUd5KjYa+VOo0+mZXRMHxsxuIcRPbzHOZaOmo8k/yucRSULo8PpoqRYzdCfTpnstDNfNB9NDEvOBmNMTkQhdE6+YM7LmSBAX09XhEQKEfrTWGTo5o1rbNU/mFIl3G4g3esxkin6u6T/naCdHkBFnBxDaEjQyUapnYaL0bNViHDQHHGHgjPechbt0XKSHcuOH0D9OLTCR42nkPrIhTR7ZoWb3QK3tuqU4+u5lu5tE3BZ3LVoGItq3yE6sjYCV3iN/pPLNxaRVTJ6DenbSOheH225K3Yv95w1ZEZ2BESsAO5oigtZZG7gOO9RWnaAyg0FZrthm5lUA68nqLeuzFiEJJ9DBYiNyGTFASxIBkazWhHBC6jaYBCcEwVZIIwmN9QPrDKFQAR1Qy7PGEck6WU8SWVcda7S31SQ/sJ4scrVGnbv2U5Kyxi4RW1OURZFpTTjHeiIzqy4KrB22HGVGJvJzoCVH1OAxtH4uJ7BuowxgI2tkISUFypqVXMisOIfblUATrPMKrB2jHGtm2YJJrLUaWTfhzsSust4yBdYZwDwgZtkC8MwciEhtVm+VrVi7TrSfhqLA2iEVZYyQxr+Si38s66yaOgf1D6DM0NicwdbPikSBdZMEEyFhNyQHkyIgQ7HKchu40wS4kSEVo1hKdetkTT6wPo0snSYp6FhoJjjKjiYx9ShB4HNK2yq3QW1mTat3CqwhSwd4aIm6c0mAFUetAFUrtePY6SCnpm5FnjHENcLN3q9rPxZ3YN1aLVnLvjyKADFJBS/2gWPGjGMPOWrMSRg86gvruknkASFaqcgaQXIC60ki4FzUsk7jOKmCL8LfNrx9wcDAbHl8WCrN+sT1y78L/Oq1ZS9OrLYPsJYgycB6kiwk8JVoFug9wPpYbXjfVZ//4rZNW031yEu/+dW1yx7YZwyMXATWcQ1AxatoQ8s6cyOSkymwdpK7H9A4C43rQAaHsffAji2XfezyeGdk6ke2/OXNz1y3dHtsTqFBDO8yDrJoAjNHUCuGG+GDJ3vynAJrK4COJSgdQpIYWO8wlZ1XXHTl9nf+Y+ojqx998KvfeGiPMSccWSMvfRky1gJaQ4MKmCEXSW6phBt6nrV7hzAVL+/bSLjAaeCH7W8rKDXJcRPvPL5r87zZ8wZKc2aVZs/5yKd3HI2PGTOicKVuLA9UEXEnSBuqGhJF2zWBAnRZ/0KWLz4cZXkz0uJVSK+FzUrTk35k2Aeq4ybZu/Wdl+5efifGhHUHbofw1LD2Cp2GtjVRVdYq2TJmoh/5R04DVQxrGjJNGzT5hpBFFLl7Mm3l1cwoNbFkj5p0r4n3rPr+w6WBWaXSnFLpo/OvWnRoLB2D02FluQQQtWuP5n4KZ82XuYw7H0L0SOb/sw4vdi0BhybWgh/rkOruV369ZsFXrhipRtiWYzjfW/X46id/IUtutJLhJWm9ksRVNsaB/WhKTpf8qyqANawVZGnL9M5Ej3EPZN+2Ib8g1kpHHoFIjmxhkiOPr1q55I6bq/oApFY3N91+9+qf/FzelUkFE2O/k9k1pJ3ZUDxrCnBBFhHQRByISRxiBVJ2t8oplILBoYm1+BAQTI6a9MNbb7upZL+RKf/wiadkhccmMjz662bWqqJZw1dAHDhzGOcXHSjywTcvZZMxIh1n16B90qTDMPAaVs1iygkoI6YnhqspbNglnw3YT6aiWVPA6j42y39XxVKdgy9lbNRFZ9SsXSNSNckI8MZCLUoSWYPXE3pzk+oNlHdXrc2mThP5UDGsidLSzb54QgTQkU/v4Q93xkaNeoK1jEICnIOsoLWWlNpsbZLFGpi2UzE+xMb0u1tSdqBRygog7uJTK4sNEPFbE6wbgj2ggo5N4ipbavNPr2LsGhzhlLm2I2j6E7egrlSwVxD5YG1FXhpIsDHg0KUKYN20QwFi93EwktVqlT4E1RjxJce6mTIDDl2qGLt2Kw2YNiyX98YmE2Ydv7gzsjlNyoCyU5KVNtaZKG1SMawpBxeg3RYGR+QTsW/QUAM28eAYkLULK6K0I2f1hkZ9xZqIyREeA0ewhqQsJ9+4CYxBhEHKE20s9ZQ1CeZDQwvbSGRLJ6sA1m5YsumF5WA6kiWfOcey2VVPLePViji4BlRTslfiD038HHhNc9YYk35loTEMSXHD1LGGxcTq8pxSPInOEBsGjhyV7KpW0qiFjcbE3tLOTUt7K+k5+90eqBC7Fj8oRo3AzQFWJvKGlKwFHNIyQ2JMkzSJ5FRIY1wEUVKTh2oZBVaaBiqCdSKAG6wFrORxJTa8NXkRJVs1BYnTgO1vLCdAHvewqjyVlx54plTojSetodd+k3/W4KJByCAhHxYBmzxREFJi3fL3KSSMsggmLH8JitQYsuFtEnlzqn4mx1pDYN0kgK6Z+rgDDDqkJkEypYq8w8thcxVUsiIUi7dVpgFlyjtrXOzJqASu/cBNncNoKl90AZj4ceSLG6lXqvLZADLoQCQOyKlcCjm4gXU7pVUztu++JTe8vXHTxV+YL18RzSzvOXbw60tuGSyV5px34Z//vveUPB4e/sfGN0szziuV55TKgwOzZi1eunxMuYNsFNVAFnFJCuNG79+v8s46GTeV3d+6ecHMuR//4MiIqY2suHNxaWjwhddfN9HYi2ufv+TLdx3G/ubUwWs/O3fj5q3Dxjz34suL71jCt9fKGvaNa0LusOJVxKTFtDX0NXP/rEdM5f17b75y3W/XjyAZH3p17dOLlt9/TMqOvrvpj6U5l39w1Az/672rPzl319GjyN+wefPlVy88OJ4AN+DKnVOx5lgzGlg3SVhv/+ZNV7zw2juwUxPtfuP5n16z7MHDiMcH/r3l92D9/iFjToxfc8mnNm19F6wfXv3YLcuWozJ9iBq0MLU+RBwIQQvrflYRrEe2ffvWBc++skFY1/e8tvaJ6+55aD/i0d5tf32zdP5l7x0wB/+746K58kSqNHj+4AUX7jp8HJXhWmp6LxXQzkXLXdTS73P5Zz1qxnfce+vCZ19er6z3/+65J7+24jtHEE+P/HPTWwOzL9113GzZ9Kd7ll6P9TT4MlQ0wJDJmms+UWDdVliHjO5eefsN6179A3yCiU+89vwvb1xxn7COh7duXD8073N7PozN6LEnV91fwjJl5kysQy790oL9I/KteTXW7zHEbzT6EMEd/HWT5IPlYVM7SWs1EdbaY4Ao3FEUVRABtrfWPbNo/sW12jC4YgX4yA9+tPqpZ4aVrzCN6nFd3mdLUuzcspaoVOhT+WeNTWEFWLFCBkd5npfKYhmc5FMnBZ0mtR8/svKBu6438Ug9TaqJufG2pY+u+dkpGLX2od8NKGR2KKy1oL/lnzXpiA0Ca0U+/NRMxSWgpVLVRIfvvmUhdjfyMdTA4GNrnsZFgHODUj5N5YkR2cU1G/a1vLOGQEXB8F/LKMtRgR19jIWIAMBZaaNa5/ajimD9/6rA2p8Ca38KrP0psPYlY/4HbmxXSMtzgakAAAAASUVORK5CYII=)\n",
+        "\n",
+        "$$\n",
+        "\\vec{F}_{net} = -mg\\hat{j}\n",
+        "$$\n",
+        "\n",
+        "By using Newton's 2nd law of motion, we get:\n",
+        "\n",
+        "$$\n",
+        "a+g =0\n",
+        "$$\n",
+        "\n",
+        "Since acceleration is the second derivative of position in time, we get:\n",
+        "\n",
+        "$$\n",
+        "\\ddot{y}+g=0\n",
+        "$$\n",
+        "\n",
+        "In order to solve this 2nd order differential equation using Euler's method, we need to reduce it to 1st order differential equation. To do so, we use the definition of velocity.\n",
+        "\n",
+        "\\begin{align}\n",
+        "\\dot{y} = v\\\\\n",
+        "\\dot{v} = -g\n",
+        "\\end{align}\n",
+        "\n",
+        "Let's write the time derivatives in finite-differences form.\n",
+        "\n",
+        "\\begin{align}\n",
+        "\\frac{\\Delta y}{\\Delta t} = v\\\\\n",
+        "\\frac{\\Delta v}{\\Delta t} = -g\n",
+        "\\end{align}\n",
+        "\n",
+        "$\\Delta t$ is a constant which is defined by us. \n",
+        "\n",
+        "\\begin{align}\n",
+        "\\Delta y = v \\Delta t\\\\\n",
+        "\\Delta v = -g \\Delta t\n",
+        "\\end{align}\n",
+        "\n",
+        "Now let's write differences of pısition and velocity via indicies.\n",
+        "\n",
+        "\\begin{align}\n",
+        " y_1 - y_0 = v_0 \\Delta t\\\\\n",
+        " v_1 - v_0 = -g \\Delta t\n",
+        "\\end{align}\n",
+        "\n",
+        "Here in the second equation, we do not subscribe $g$, because it does not change in time. Index-0 represents $t=0$, $i.e.$ this moment and we know position and velocity at this moment.\n",
+        "\n",
+        "\\begin{align}\n",
+        " y_1 = y_0 + v_0 \\Delta t\\\\\n",
+        " v_1 = v_0 -g \\Delta t\n",
+        "\\end{align}\n",
+        "\n",
+        "Therefore we may use these formulas to calculate the position and velocity and a time-step later."
+      ],
+      "metadata": {
+        "id": "0bm3yZ5x1ovD"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Codes"
+      ],
+      "metadata": {
+        "id": "qVl5-GcT_e6H"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Simulation Functions\n",
+        "\n",
+        "For these functions Matplotlib's Pyplot class is used [2, 3]. \n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "dxwfomFOLrYB"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import matplotlib.pyplot as plt"
+      ],
+      "metadata": {
+        "id": "mufiFWOML0KU"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def free_fall(m = 10.0,  # Mass of the object (kg)\n",
+        "            g = 9.81,  # Gravitational acceleration of Earth (m/sec^2)\n",
+        "            y0 = 20.0,  # Initial position of the object (m)\n",
+        "            v0 = 0.0,  # Initial velocity of the object (m/sec)\n",
+        "            dt = 0.01  # Time step (sec)\n",
+        "):\n",
+        "    t = [0.0]  # Container for data of time, created using the first time value\n",
+        "    v = [v0]  # Container for data of velocity, created using the first velocity value\n",
+        "    y = [y0]  # Container for data of position, created using the first position value\n",
+        "    while True:\n",
+        "        y1 = y0 + v0 * dt  # Calculate next position\n",
+        "        v1 = v0 - g * dt  # Calculate next velocity\n",
+        "\n",
+        "        if y1 < 0.0: break  # If the object hit the ground, break the while-loop\n",
+        "\n",
+        "        y.append(y1)  # Store calculated position\n",
+        "        v.append(v1)  # Store calculated velocity\n",
+        "        t.append(t[-1] + dt)  # Store next time step value\n",
+        "\n",
+        "        v0, y0 = v1, y1  # Update current values for next time step calculations.\n",
+        "\n",
+        "    return t, v, y"
+      ],
+      "metadata": {
+        "id": "Nw9eiPMB06OC"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def plot_free_fall(t, v, y, title=\"Plot\"):\n",
+        "    %matplotlib inline\n",
+        "    fig = plt.figure(figsize=(12, 6))\n",
+        "    fig.suptitle(title, fontsize=20)\n",
+        "\n",
+        "    ax1 = plt.subplot(1, 2, 1)\n",
+        "    ax1.plot(t, v, \"r\")\n",
+        "    ax1.set_ylabel(\"Velocity (m/sec)\", fontsize=16)\n",
+        "    ax1.set_xlabel(\"Time (sec)\", fontsize=16)\n",
+        "\n",
+        "    ax2 = plt.subplot(1, 2, 2)\n",
+        "    ax2.plot(t, y, \"g\")\n",
+        "    ax2.set_ylabel(\"Height (m)\", fontsize=16)\n",
+        "    ax2.set_xlabel(\"Time (sec)\", fontsize=16)\n",
+        "\n",
+        "    plt.show()\n",
+        "    plt.close(fig)"
+      ],
+      "metadata": {
+        "id": "dtbT40wb7kBY"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Animation Functions\n",
+        "For these functions Matplotlib's Animation class is used [4, 5]."
+      ],
+      "metadata": {
+        "id": "3Txk3s0ZLv8E"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from matplotlib.animation import FuncAnimation\n",
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "yvJ0bMukELJH"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def animate_height(time_list, position):\n",
+        "    %config InlineBackend.figure_format = 'retina'\n",
+        "    # Enable interactive plot\n",
+        "    %matplotlib notebook\n",
+        "    # Call notebook interactions again. This is needed due to a bug in Matplotlib.\n",
+        "    %matplotlib notebook\n",
+        "    # %matplotlib notebook\n",
+        "    from IPython.display import HTML\n",
+        "\n",
+        "    fig, ax = plt.subplots()\n",
+        "\n",
+        "    line, = ax.plot([], \"*\")\n",
+        "\n",
+        "    ax.set_xlim(-1.1, 1.1)\n",
+        "    ax.set_ylim(0.0, max(position)+5)\n",
+        "\n",
+        "    def animate(time_step):\n",
+        "        x = np.array([0.0])\n",
+        "        y = np.array(position[time_step])\n",
+        "        line.set_data((x, y))\n",
+        "        return line\n",
+        "    \n",
+        "    anim_pos = FuncAnimation(fig, animate, \n",
+        "                        frames=len(time_list), \n",
+        "                        interval=50  # determines how fast your animation will be aired.\n",
+        "                        )\n",
+        "    # HTML(anim_pos.to_html5_video())\n",
+        "    return HTML(anim_pos.to_html5_video())\n"
+      ],
+      "metadata": {
+        "id": "LExm6TilMS5L"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def animate_velocity(time_list, velocity):\n",
+        "    %config InlineBackend.figure_format = 'retina'\n",
+        "    # Enable interactive plot\n",
+        "    %matplotlib notebook\n",
+        "    # Call notebook interactions again. This is needed due to a bug in Matplotlib.\n",
+        "    %matplotlib notebook\n",
+        "    from IPython.display import HTML\n",
+        "\n",
+        "    fig, ax = plt.subplots()\n",
+        "\n",
+        "    line, = ax.plot([])\n",
+        "\n",
+        "    ax.set_xlim(0, 1)\n",
+        "    ax.set_ylim(min(velocity), max(velocity))\n",
+        "\n",
+        "    def animate(time_step):\n",
+        "        x = np.array([0.5, 0.5])\n",
+        "        y = np.array([0.0, velocity[time_step]])\n",
+        "        line.set_data((x, y))\n",
+        "        return line\n",
+        "\n",
+        "    anim_vel = FuncAnimation(fig, animate, \n",
+        "                        frames=len(time_list), \n",
+        "                        interval=50  # determines how fast your animation will be aired.\n",
+        "                        )\n",
+        "    return HTML(anim_vel.to_html5_video())"
+      ],
+      "metadata": {
+        "id": "Fnhz7-5LRzDJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def animate_physical_quantities(time_list, velocity, position):\n",
+        "    %config InlineBackend.figure_format = 'retina'\n",
+        "    # Enable interactive plot\n",
+        "    %matplotlib notebook\n",
+        "    # Call notebook interactions again. This is needed due to a bug in Matplotlib.\n",
+        "    %matplotlib notebook\n",
+        "    # %matplotlib notebook\n",
+        "    from IPython.display import HTML\n",
+        "\n",
+        "    fig = plt.figure(figsize=(12, 6))\n",
+        "    ax1 = plt.subplot(1, 2, 1)\n",
+        "    ax2 = plt.subplot(1, 2, 2)\n",
+        "\n",
+        "    ax1.set_xlim(0, 1)\n",
+        "    ax1.set_ylim(min(velocity) - 5, max(velocity) + 5)\n",
+        "    ax2.set_xlim(-1.1, 1.1)\n",
+        "    ax2.set_ylim(0.0, max(position)+5)\n",
+        "\n",
+        "    ax1.set_title(\"Velocity\", fontsize=24)\n",
+        "    ax2.set_title(\"Position\", fontsize=24)\n",
+        "\n",
+        "    ax1.set_ylabel(\"Speed (m/sec)\", fontsize=16)\n",
+        "    ax2.set_ylabel(\"Height (m)\", fontsize=16)\n",
+        "\n",
+        "    ax1.axes.xaxis.set_visible(False)\n",
+        "    ax2.axes.xaxis.set_visible(False)\n",
+        "\n",
+        "    line1, = ax1.plot([], \"r\")\n",
+        "    line2, = ax1.plot([], \"vr\")\n",
+        "    line3, = ax2.plot([], \"o\")\n",
+        "    line = [line1, line2, line3]\n",
+        "\n",
+        "\n",
+        "    def animate_all(time_step):\n",
+        "        x1 = np.array([0.5, 0.5])\n",
+        "        y1 = np.array([0.0, velocity[time_step]])\n",
+        "        x2 = np.array([0.5])\n",
+        "        y2 = np.array([velocity[time_step]])\n",
+        "        x3 = np.array([0.0])\n",
+        "        y3 = np.array(position[time_step])\n",
+        "        line[0].set_data(x1, y1)\n",
+        "        line[1].set_data(x2, y2)\n",
+        "        line[2].set_data(x3, y3)\n",
+        "        return line\n",
+        "    \n",
+        "    anim_pos = FuncAnimation(fig, animate_all, \n",
+        "                        frames=len(time_list), \n",
+        "                        interval=50  # determines how fast your animation will be aired.\n",
+        "                        )\n",
+        "    # HTML(anim_pos.to_html5_video())\n",
+        "    return HTML(anim_pos.to_html5_video())"
+      ],
+      "metadata": {
+        "id": "BDLnaC6-l1w2"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Part A: Free fall of objects with different masses"
+      ],
+      "metadata": {
+        "id": "xFTI-FhB7Clh"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Case 1: Object of mass, m = 20 kg\n"
+      ],
+      "metadata": {
+        "id": "b0qBfpPU7Ooh"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "time, vel, pos = free_fall(m = 20)\n",
+        "plot_free_fall(time, vel, pos, \"Graph of a free falling object of mass, m = 20 kg\")"
+      ],
+      "metadata": {
+        "id": "gDFLtkNw7blH"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "animate_physical_quantities(time, vel, pos)"
+      ],
+      "metadata": {
+        "id": "RDktrcKoRbVb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Case 2: Object of mass, m = 10 kg\n"
+      ],
+      "metadata": {
+        "id": "Evl9tu2t_DgV"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "time, vel, pos = free_fall(m = 10)\n",
+        "plot_free_fall(time, vel, pos, \"Graph of a free falling object of mass, m = 10 kg\")"
+      ],
+      "metadata": {
+        "id": "HbadNyeU_DgV"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "animate_physical_quantities(time, vel, pos)"
+      ],
+      "metadata": {
+        "id": "Zznvl7bssVIB"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Comments"
+      ],
+      "metadata": {
+        "id": "LNwojj4uA-0r"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "As it is obviously seen in the plots, mass of falling object has no influence on the dynamics."
+      ],
+      "metadata": {
+        "id": "h5rcT1Vu_Mv6"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Part B: Free fall of objects let to fall from different heights"
+      ],
+      "metadata": {
+        "id": "CtqKxmO9_i5t"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Case 1: Object let from height, y = 10 m\n"
+      ],
+      "metadata": {
+        "id": "nDs-CPEX_i5u"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "time, vel, pos = free_fall(y0 = 10)\n",
+        "plot_free_fall(time, vel, pos, \"Graph of a free falling object let to fall from height, h = 10 m\")"
+      ],
+      "metadata": {
+        "id": "F0zgg6GB_i5u"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "animate_physical_quantities(time, vel, pos)"
+      ],
+      "metadata": {
+        "id": "-G-xzKppsX4T"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Case 2: Object let from height, y = 20 m\n"
+      ],
+      "metadata": {
+        "id": "S3gKOplT_i5v"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "time, vel, pos = free_fall(y0 = 20)\n",
+        "plot_free_fall(time, vel, pos, \"Graph of a free falling object let to fall from height, h = 20 m\")"
+      ],
+      "metadata": {
+        "id": "kgBmDpJ5_i5v"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "animate_physical_quantities(time, vel, pos)"
+      ],
+      "metadata": {
+        "id": "mN4cyxsEsYuR"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "As it is obviously seen in the plots, mass of falling object has no influence on the dynamics."
+      ],
+      "metadata": {
+        "id": "gRtu9QJH_i5v"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Case 3: Object let from height, y = 100 m\n"
+      ],
+      "metadata": {
+        "id": "Pe6cum5-AOlG"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "time, vel, pos = free_fall(y0 = 100)\n",
+        "plot_free_fall(time, vel, pos, \"Graph of a free falling object let to fall from height, h = 100 m\")"
+      ],
+      "metadata": {
+        "id": "ExskmZVaAOlH"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "animate_physical_quantities(time, vel, pos)"
+      ],
+      "metadata": {
+        "id": "rClUqisCsZpf"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Comments"
+      ],
+      "metadata": {
+        "id": "Hh7uiVUpBEg6"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "While in 1st case the flight time is 1.4 sec, it is getting longer for Case-2 and Case-3. This means that when the height is bigger, the flight time gets longer. Also we see that the final velocity is getting bigger negatively. "
+      ],
+      "metadata": {
+        "id": "0ceYy81wAVYm"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Conclusion\n",
+        "\n",
+        "In free fall movement mass of the falling object doesn't affect the fall. But when one drops the object from a bigger height, the object takes longer to hit the ground. Meanwhile the object gains more velocity in negative direction."
+      ],
+      "metadata": {
+        "id": "va8x_P8JBmSa"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# References\n",
+        "1. Wikipedia contributors. (2022, June 3). Free fall. In Wikipedia, The Free Encyclopedia. Retrieved 11:49, June 26, 2022, from https://en.wikipedia.org/w/index.php?title=Free_fall&oldid=1091269660\n",
+        "\n",
+        "2. Matplotlib contributors. Matplotlib 3.5.2 Documentation.  Retrieved 13:42, June 26, 2022, from https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html\n",
+        "\n",
+        "3. Matplotlib contributors. Matplotlib 3.5.2 Documentation.  Retrieved 14:27, June 26, 2022, from https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html\n",
+        "\n",
+        "4. Matplotlib contributors. Matplotlib 3.5.2 Documentation.  Retrieved 15:00, June 26, 2022, from https://matplotlib.org/stable/api/animation_api.html\n",
+        "\n",
+        "5. Stack Overflow contributors.  Retrieved 15:11, June 26, 2022, from https://stackoverflow.com/questions/29832055/animated-subplots-using-matplotlib"
+      ],
+      "metadata": {
+        "id": "6NgUMo6D2G13"
+      }
+    }
+  ]
+}
